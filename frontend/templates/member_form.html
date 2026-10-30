@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit member' if member else 'Register member' }}{% endblock %}{% block breadcrumb %}Members / {{ 'Edit' if member else 'Register' }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">COMMUNITY</span><h1>{{ 'Edit member details' if member else 'Register a member' }}</h1><p>Keep member information clear and up to date.</p></div><a class="btn btn-secondary" href="{{ url_for('main.members') }}">← Back to members</a></div>
+<form method="post" class="panel form-panel"><div class="form-section-title"><span class="section-number">01</span><div><h2>Member information</h2><p>Fields marked with * are required.</p></div></div><div class="form-grid">
+<label>Member ID *<input name="member_code" required value="{{ member.member_code if member else '' }}" placeholder="e.g. STU-001"></label>
+<label>Full name *<input name="full_name" required value="{{ member.full_name if member else '' }}" placeholder="Full name"></label>
+<label>Email<input type="email" name="email" value="{{ member.email if member and member.email else '' }}" placeholder="name@example.com"></label>
+<label>Phone<input name="phone" value="{{ member.phone if member else '' }}" placeholder="Phone number"></label>
+<label class="span-2">Course / department<input name="course" value="{{ member.course if member else '' }}" placeholder="e.g. MCA"></label>
+{% if member %}<label class="checkbox-label span-2"><input type="checkbox" name="active" {% if member.active %}checked{% endif %}> Member account is active</label>{% endif %}
+</div><div class="form-actions"><a class="btn btn-secondary" href="{{ url_for('main.members') }}">Cancel</a><button class="btn btn-primary" type="submit">{{ 'Save changes' if member else 'Register member' }} →</button></div></form>
+{% endblock %}

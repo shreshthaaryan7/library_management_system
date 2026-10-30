@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit book' if book else 'Add book' }}{% endblock %}{% block breadcrumb %}{{ 'Edit book' if book else 'Add book' }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">COLLECTION</span><h1>{{ 'Edit book details' if book else 'Add a new book' }}</h1><p>{{ 'Keep the catalog information accurate.' if book else 'Add a title to your library collection.' }}</p></div><a class="btn btn-secondary" href="{{ url_for('main.books') }}">← Back to books</a></div>
+<form method="post" class="panel form-panel"><div class="form-section-title"><span class="section-number">01</span><div><h2>Book information</h2><p>Basic details used to identify this title.</p></div></div><div class="form-grid">
+<label class="span-2">Book title *<input name="title" required value="{{ book.title if book else '' }}" placeholder="e.g. Atomic Habits"></label>
+<label>Author *<input name="author" required value="{{ book.author if book else '' }}" placeholder="Author name"></label>
+<label>Category *<input name="category" required value="{{ book.category if book else 'General' }}" placeholder="e.g. Technology"></label>
+<label>ISBN<input name="isbn" value="{{ book.isbn if book and book.isbn else '' }}" placeholder="Optional unique ISBN"></label>
+<label>Publisher<input name="publisher" value="{{ book.publisher if book else '' }}" placeholder="Publisher name"></label>
+<label>Publication year<input type="number" min="0" max="2100" name="publication_year" value="{{ book.publication_year if book and book.publication_year else '' }}" placeholder="e.g. 2024"></label>
+<label>Shelf location<input name="shelf_location" value="{{ book.shelf_location if book else '' }}" placeholder="e.g. A-02"></label>
+<label>Total copies *<input type="number" min="1" name="total_copies" required value="{{ book.total_copies if book else 1 }}"></label>
+<label class="span-2">Description<textarea name="description" rows="3" placeholder="A short note about this book">{{ book.description if book else '' }}</textarea></label>
+</div><div class="form-actions"><a class="btn btn-secondary" href="{{ url_for('main.books') }}">Cancel</a><button class="btn btn-primary" type="submit">{{ 'Save changes' if book else 'Add book to catalog' }} →</button></div></form>
+{% endblock %}

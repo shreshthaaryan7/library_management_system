@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14213d">
+  <title>{% block title %}Library{% endblock %} · {{ app_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+{% if session.get('user_id') %}
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{{ url_for('main.dashboard') }}"><span class="brand-mark">L</span><span><strong>Libra</strong><small>Library workspace</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav">
+      <a class="{{ 'active' if request.endpoint == 'main.dashboard' else '' }}" href="{{ url_for('main.dashboard') }}"><span>▦</span> Dashboard</a>
+      <a class="{{ 'active' if request.endpoint in ['main.books','main.book_new','main.book_edit'] else '' }}" href="{{ url_for('main.books') }}"><span>▤</span> Books</a>
+      <a class="{{ 'active' if request.endpoint in ['main.members','main.member_new','main.member_edit','main.member_history'] else '' }}" href="{{ url_for('main.members') }}"><span>♙</span> Members</a>
+      <a class="{{ 'active' if request.endpoint in ['main.loans','main.issue','main.return_loan'] else '' }}" href="{{ url_for('main.loans') }}"><span>⇄</span> Loans & returns</a>
+      <a class="{{ 'active' if request.endpoint == 'main.reservations' else '' }}" href="{{ url_for('main.reservations') }}"><span>☆</span> Reservations</a>
+      <a class="{{ 'active' if request.endpoint == 'main.reports' else '' }}" href="{{ url_for('main.reports') }}"><span>▥</span> Reports</a>
+      {% if session.get('role') == 'admin' %}<a class="{{ 'active' if request.endpoint == 'main.audit' else '' }}" href="{{ url_for('main.audit') }}"><span>◷</span> Audit trail</a>{% endif %}
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="help-card"><span class="help-icon">✦</span><strong>Library tip</strong><p>Keep member records up to date to make borrowing smooth.</p></div>
+      <div class="user-mini"><span class="avatar">{{ session.get('username','A')[:1]|upper }}</span><span class="user-meta"><strong>{{ session.get('username') }}</strong><small>{{ session.get('role','staff')|title }}</small></span><form method="post" action="{{ url_for('main.logout') }}"><button class="icon-button" title="Log out" aria-label="Log out">↪</button></form></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button><div class="breadcrumbs">Library workspace <span>/</span> {% block breadcrumb %}Overview{% endblock %}</div><div class="top-actions"><span class="today">{{ current_date if current_date is defined else '' }}</span><span class="avatar avatar-small">{{ session.get('username','A')[:1]|upper }}</span></div></header>
+    <div class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash flash-{{ category }}" role="status">{{ message }}<button type="button" class="flash-close" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}{% endwith %}
+      {% block content %}{% endblock %}
+      <footer class="footer">© {{ 2026 }} Libra Library Workspace <span>Made for better library days.</span></footer>
+    </div>
+  </main>
+</div>
+{% else %}
+<div class="auth-shell">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="auth-flashes">{% for category, message in messages %}<div class="flash flash-{{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}{% block auth_content %}{% endblock %}</div>
+{% endif %}
+</body>
+</html>

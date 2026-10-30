@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block auth_content %}
+<div class="login-layout">
+  <section class="login-story"><a class="brand brand-light" href="#"><span class="brand-mark">L</span><span><strong>Libra</strong><small>Library workspace</small></span></a><div class="story-copy"><span class="eyebrow">YOUR LIBRARY, IN GOOD ORDER</span><h1>Every book has a story.<br><em>Make yours easy to find.</em></h1><p>A calmer, clearer way to manage your collection, your members, and every checkout in between.</p><div class="story-stats"><div><strong>Organized</strong><small>One clear workspace</small></div><div><strong>Connected</strong><small>Books to borrowers</small></div></div></div><div class="story-bottom">Thoughtfully designed for everyday library work.</div></section>
+  <section class="login-panel"><div class="login-card"><div class="login-icon">L</div><span class="eyebrow">WELCOME BACK</span><h2>Sign in to Libra</h2><p class="muted">Enter your staff credentials to continue.</p><form method="post" class="form-stack"><label>Username<input name="username" autocomplete="username" required autofocus placeholder="Your username"></label><label>Password<input type="password" name="password" autocomplete="current-password" required placeholder="Your password"></label><button class="btn btn-primary btn-full" type="submit">Sign in <span>→</span></button></form><div class="login-note"><span>ⓘ</span> First time here? Create your admin account using the setup instructions in README.md.</div></div><div class="login-footer">Secure access · Library administration</div></section>
+</div>
+{% endblock %}
